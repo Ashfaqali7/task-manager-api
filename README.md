@@ -31,7 +31,6 @@ A RESTful API for managing tasks with user authentication, built with Node.js, E
 - MongoDB with Mongoose
 - JSON Web Tokens (JWT) for authentication
 - Bcrypt.js for password hashing
-- Validator.js for input validation
 
 ## Getting Started
 
@@ -54,14 +53,14 @@ A RESTful API for managing tasks with user authentication, built with Node.js, E
 
 3. Create a `.env` file in the root directory with the following variables:
    ```
-   PORT=3000
-   MONGODB_URL=mongodb://localhost:27017/task-manager-api
+   PORT=5000
+   MONGO_URI=your_mongodb_connection_string_here
    JWT_SECRET=your_jwt_secret_here
    ```
 
 4. Start the server:
    ```bash
-   npm run dev
+   npm start
    ```
 
 ## API Endpoints
@@ -69,15 +68,54 @@ A RESTful API for managing tasks with user authentication, built with Node.js, E
 ### Authentication
 
 - `POST /api/auth/register` - Register a new user
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "securepassword"
+  }
+  ```
+
 - `POST /api/auth/login` - Login as an existing user
+  ```json
+  {
+    "email": "john@example.com",
+    "password": "securepassword"
+  }
+  ```
+
+- `POST /api/auth/logout` - Logout current user
 
 ### Tasks
 
 - `GET /api/tasks/get` - Get all tasks for the authenticated user
+
 - `POST /api/tasks/add` - Create a new task
-- `GET /api/tasks/:id` - Get a specific task by ID
-- `PATCH /api/tasks/update/:id` - Update a specific task
-- `DELETE /api/tasks/delete/:id` - Delete a specific task
+  ```json
+  {
+    "title": "Task Title",
+    "description": "Task Description",
+    "status": "pending",
+    "dueDate": "2023-12-31"
+  }
+  ```
+
+- `PUT /api/tasks/update` - Update a specific task
+  ```json
+  {
+    "taskId": "task_id_here",
+    "title": "Updated Task Title",
+    "description": "Updated Task Description",
+    "status": "done"
+  }
+  ```
+
+- `DELETE /api/tasks/remove` - Delete a specific task
+  ```json
+  {
+    "taskId": "task_id_here"
+  }
+  ```
 
 ## Authentication
 
@@ -86,6 +124,20 @@ All task-related endpoints require authentication. Include the JWT token in the 
 ```
 Authorization: Bearer <your-jwt-token>
 ```
+
+## Testing
+
+Run the included test suite to verify API functionality:
+
+1. Start the server:
+   ```bash
+   npm start
+   ```
+
+2. In a separate terminal, run the tests:
+   ```bash
+   npm test
+   ```
 
 ## Contributing
 
